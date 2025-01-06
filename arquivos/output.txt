@@ -1,0 +1,9 @@
+; Início do programa
+; Declarando inteiro a
+; Declarando inteiro b
+; Declarando inteiro c
+    LOADI R1, 1    ; Carrega 1 em R1
+    STORE a, R1    ; Armazena em a
+    LOADI R1, 2    ; Carrega 2 em R1
+    STORE b, R1    ; Armazena em b
+; Fim do programa

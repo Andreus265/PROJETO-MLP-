@@ -1,0 +1,18 @@
+Token; Tipo; Linha
+'$'; $; 1
+'inteiro'; inteiro; 2
+'a'; IDENTIFICADOR; 2
+','; SIMBOLO RESERVADO; 2
+'b'; IDENTIFICADOR; 2
+','; SIMBOLO RESERVADO; 2
+'c'; IDENTIFICADOR; 2
+';'; SIMBOLO RESERVADO; 2
+'a'; IDENTIFICADOR; 3
+'='; OPERADOR; 3
+'1'; NUMERO; 3
+';'; SIMBOLO RESERVADO; 3
+'b'; IDENTIFICADOR; 4
+'='; OPERADOR; 4
+'2'; NUMERO; 4
+';'; SIMBOLO RESERVADO; 4
+'$.'; $.; 6

@@ -1,0 +1,105 @@
+ public Galhos construirArvore(ParseTree tree) {
+        raiz = new Galhos("inicio"); // Raiz da árvore
+        visitarNos(tree);
+        return raiz; // Retorna a árvore construída
+    }
+
+    // Método para visitar cada nó da árvore de parse
+    private void visitarNos(ParseTree tree) {
+        if (tree instanceof TerminalNode) {
+            // Se for um nó terminal (token), adiciona como folha
+            raiz.adicionarFolha(new Galhos(tree.getText()));
+        } else {
+            // Caso contrário, percorre os filhos (nós não terminais)
+            for (int i = 0; i < tree.getChildCount(); i++) {
+                ParseTree child = tree.getChild(i);
+                if (child != null) {
+                    visitarNos(child); // Recursão
+                }
+            }
+        }
+    }
+
+
+    import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Arvore extends MLPBaseListener {
+
+    private Galhos raiz;
+
+    public static void extractNodes(String inputFile) throws IOException {
+        
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            String line;
+            Galhos root = new Galhos("inicio", 0); // Raiz da árvore com nível 0
+            int nivelAtual = 1; // Começa com 1 nos filhos da raiz
+    
+            try {
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim();
+    
+                    if (line.startsWith("inteiro") || line.startsWith("real") || line.startsWith("caracter")) {
+                        // Declaração de variáveis
+                        Galhos tipoNode = new Galhos("tipo", nivelAtual);
+                        String[] parts = line.split(" ");
+                        tipoNode.adicionarFolha(new Galhos(parts[0], nivelAtual + 1)); // Tipo (inteiro, real, etc.)
+                        String[] vars = parts[1].replace(";", "").split(",");
+                        for (String var : vars) {
+                            tipoNode.adicionarFolha(new Galhos(var.trim(), nivelAtual + 1));
+                        }
+                        root.adicionarFolha(tipoNode);
+    
+                    } else if (line.contains("=") && !line.startsWith("se") && !line.startsWith("enquanto")) {
+                        // Atribuição
+                        Galhos comandoNode = new Galhos("comando", nivelAtual);
+                        Galhos atribNode = new Galhos("atribuição", nivelAtual + 1);
+                        String[] parts = line.split("=");
+                        atribNode.adicionarFolha(new Galhos(parts[0].trim(), nivelAtual + 2)); // Variável
+                        atribNode.adicionarFolha(new Galhos("=", nivelAtual + 2));
+                        atribNode.adicionarFolha(new Galhos(parts[1].replace(";", "").trim(), nivelAtual + 2)); // Valor
+                        comandoNode.adicionarFolha(atribNode);
+                        root.adicionarFolha(comandoNode);
+    
+                    } else if (line.startsWith("se")) {
+                        // Condicional
+                        Galhos condicionalNode = new Galhos("comando", nivelAtual);
+                        Galhos condNode = new Galhos("condicional", nivelAtual + 1);
+                        String condition = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+                        condNode.adicionarFolha(new Galhos("condição", nivelAtual + 2));
+                        condNode.adicionarFolha(new Galhos(condition.trim(), nivelAtual + 3));
+                        condicionalNode.adicionarFolha(condNode);
+                        root.adicionarFolha(condicionalNode);
+    
+                    } else if (line.startsWith("enquanto")) {
+                        // Estrutura de repetição
+                        Galhos iterativoNode = new Galhos("comando", nivelAtual);
+                        Galhos iterNode = new Galhos("iterativo", nivelAtual + 1);
+                        String condition = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+                        iterNode.adicionarFolha(new Galhos("condição", nivelAtual + 2));
+                        iterNode.adicionarFolha(new Galhos(condition.trim(), nivelAtual + 3));
+                        iterativoNode.adicionarFolha(iterNode);
+                        root.adicionarFolha(iterativoNode);
+                    }
+                }
+    
+                reader.close();
+    
+                // Imprimir a árvore gerada
+                root.printTree("");
+    
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    
+
+    // Método para criar a árvore a partir da árvore de parse
+   
+    }

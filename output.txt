@@ -1,0 +1,41 @@
+; Início do programa
+; Declarando inteiro a
+; Declarando inteiro b
+; Declarando inteiro c
+; Declarando real d
+; Declarando caracter s
+; Declarando real j
+    LOADS R1, "teste"    ; Carrega frase em R1
+    STORE s, R1    ; Armazena em s
+    LOADI R1, 1    ; Carrega 1 em R1
+    STORE a, R1    ; Armazena em a
+    LOADI R1, 2    ; Carrega 2 em R1
+    STORE b, R1    ; Armazena em b
+    LOADI R1, 3    ; Carrega 3 em R1
+    STORE c, R1    ; Armazena em c
+    LOAD R2, 4    ; Carrega 4 em R2
+    LOAD R3, 2    ; Carrega 2 em R3
+    ADD R1, R2, R3    ; Soma 4 e 2
+    STORE d, R1    ; Armazena em d
+L1:    ; Início do bloco 'if'
+    LOAD R1, a    ; Carrega o valor de a
+    LOAD R3, 10    ; Carrega o valor de 10
+    CMPGT R2, R1, R3    ; Compara a > 10
+    JMPFALSE R2, L3    ; Salta para 'else' se a comparação for falsa
+    STORE c, R2    ; Armazena em c
+    JMP L2    ; Salta para o fim da condicional
+L3:    ; Início do bloco 'else'
+L2:    ; Fim da condicional
+L4:    ; Início do laço
+    LOAD R2, c    ; Carrega o valor de c
+    LOAD R3, 10    ; Carrega o valor de 10
+    CMPLT R1, R2, R3    ; Compara c < 10
+    JMPFALSE R1, L5    ; Salta para o fim do laço se falso
+    STORE c, R1    ; Armazena em c
+    LOAD R1, c    ; Carrega o valor de c
+    ADD R1, R1, 1    ; Incrementa c
+    STORE c, R1    ; Armazena o valor incrementado de c
+    JMP L4    ; Volta ao início do laço
+L5:    ; Fim do laço
+    STORE a, R1    ; Armazena em a
+; Fim do programa
